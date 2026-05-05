@@ -4,6 +4,18 @@ import Image from "next/image";
 import { getMeal } from "@/lib/meals";
 import classes from "./page.module.css";
 
+export function generateMetadata({ params }) {
+  const meal = getMeal(params.mealSlug);
+  if (!meal) {
+    notFound(); // special function provided by nextjs
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default async function MealDetailsPage({ params }) {
   const { mealSlug } = await params;
   const meal = getMeal(mealSlug);
